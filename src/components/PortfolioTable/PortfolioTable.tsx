@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/store';
 import { binanceWebSocket } from '../../services/binanceWebSocket';
-import { updatePrice } from '../../store/portfolioSlice';
+import { updatePrice, removeAsset } from '../../store/portfolioSlice';
 import { PriceChart } from '../PriceChart/PriceChart';
 import {
   ResponsiveContainer,
@@ -218,6 +218,7 @@ export const PortfolioTable: React.FC = () => {
               <th>Изменение (24ч)</th>
               <th>Общая стоимость</th>
               <th>Доля в портфеле</th>
+              <th>Действия</th>
             </tr>
           </thead>
           <tbody>
@@ -231,17 +232,28 @@ export const PortfolioTable: React.FC = () => {
               return (
                 <tr
                   key={asset.symbol}
-                  onClick={() => setSelectedSymbol(asset.symbol)}
                   className={selectedSymbol === asset.symbol ? styles.selected : ''}
                 >
-                  <td>{asset.symbol}</td>
-                  <td>{asset.amount.toFixed(8)}</td>
-                  <td>${currentPrice.toFixed(2)}</td>
-                  <td className={change24h >= 0 ? styles.positive : styles.negative}>
+                  <td onClick={() => setSelectedSymbol(asset.symbol)}>{asset.symbol}</td>
+                  <td onClick={() => setSelectedSymbol(asset.symbol)}>{asset.amount.toFixed(8)}</td>
+                  <td onClick={() => setSelectedSymbol(asset.symbol)}>${currentPrice.toFixed(2)}</td>
+                  <td 
+                    onClick={() => setSelectedSymbol(asset.symbol)}
+                    className={change24h >= 0 ? styles.positive : styles.negative}
+                  >
                     {change24h >= 0 ? '+' : ''}{change24h.toFixed(2)}%
                   </td>
-                  <td>${totalValue.toFixed(2)}</td>
-                  <td>{portfolioShare.toFixed(2)}%</td>
+                  <td onClick={() => setSelectedSymbol(asset.symbol)}>${totalValue.toFixed(2)}</td>
+                  <td onClick={() => setSelectedSymbol(asset.symbol)}>{portfolioShare.toFixed(2)}%</td>
+                  <td>
+                    <button
+                      className={styles.deleteButton}
+                      onClick={() => dispatch(removeAsset(asset.id))}
+                      title="Удалить актив"
+                    >
+                      ×
+                    </button>
+                  </td>
                 </tr>
               );
             })}

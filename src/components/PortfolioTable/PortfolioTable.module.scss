@@ -158,6 +158,31 @@
   }
 }
 
+.deleteButton {
+  background: none;
+  border: none;
+  color: var(--error-color);
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 2px 5px;
+  border-radius: 4px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+
+  &:hover {
+    background-color: var(--error-color);
+    color: white;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
 @media (max-width: 768px) {
   .table {
     th, td {
