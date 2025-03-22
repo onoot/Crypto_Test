@@ -121,21 +121,24 @@ export const PortfolioTable: React.FC = () => {
   });
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} role="main" aria-label="Портфель криптовалют">
       <div className={styles.header}>
-        <h2>Портфель</h2>
-        <div className={styles.totalInfo}>
-          <div className={styles.totalValue}>
+        <h2 id="portfolio-title">Портфель</h2>
+        <div className={styles.totalInfo} aria-labelledby="portfolio-title">
+          <div className={styles.totalValue} aria-label="Общая стоимость портфеля">
             ${totalPortfolioValue.toFixed(2)}
           </div>
-          <div className={`${styles.totalChange} ${totalChange24h >= 0 ? styles.positive : styles.negative}`}>
+          <div 
+            className={`${styles.totalChange} ${totalChange24h >= 0 ? styles.positive : styles.negative}`}
+            aria-label={`Изменение за 24 часа: ${totalChange24h >= 0 ? 'плюс' : 'минус'} ${Math.abs(totalChange24h).toFixed(2)}%`}
+          >
             {totalChange24h >= 0 ? '+' : ''}{totalChange24h.toFixed(2)}%
           </div>
         </div>
       </div>
 
       {/* График изменения цен */}
-      <div className={styles.priceChart}>
+      <div className={styles.priceChart} role="region" aria-label="График изменения цен">
         <h3>Изменение цен</h3>
         <ResponsiveContainer width="100%" height={400}>
           <LineChart data={priceHistory}>
@@ -183,7 +186,7 @@ export const PortfolioTable: React.FC = () => {
       </div>
 
       {/* График распределения активов */}
-      <div className={styles.portfolioChart}>
+      <div className={styles.portfolioChart} role="region" aria-label="Распределение активов">
         <h3>Распределение активов</h3>
         <ResponsiveContainer width="100%" height={300}>
           <PieChart>
@@ -209,16 +212,20 @@ export const PortfolioTable: React.FC = () => {
       </div>
 
       <div className={styles.tableContainer}>
-        <table className={styles.table}>
+        <table 
+          className={styles.table}
+          role="grid"
+          aria-label="Список активов портфеля"
+        >
           <thead>
-            <tr>
-              <th>Валюта</th>
-              <th>Количество</th>
-              <th>Цена</th>
-              <th>Изменение (24ч)</th>
-              <th>Общая стоимость</th>
-              <th>Доля в портфеле</th>
-              <th>Действия</th>
+            <tr role="row">
+              <th role="columnheader" scope="col">Валюта</th>
+              <th role="columnheader" scope="col">Количество</th>
+              <th role="columnheader" scope="col">Цена</th>
+              <th role="columnheader" scope="col">Изменение (24ч)</th>
+              <th role="columnheader" scope="col">Общая стоимость</th>
+              <th role="columnheader" scope="col">Доля в портфеле</th>
+              <th role="columnheader" scope="col">Действия</th>
             </tr>
           </thead>
           <tbody>
@@ -233,23 +240,69 @@ export const PortfolioTable: React.FC = () => {
                 <tr
                   key={asset.symbol}
                   className={selectedSymbol === asset.symbol ? styles.selected : ''}
+                  role="row"
+                  aria-selected={selectedSymbol === asset.symbol}
                 >
-                  <td onClick={() => setSelectedSymbol(asset.symbol)}>{asset.symbol}</td>
-                  <td onClick={() => setSelectedSymbol(asset.symbol)}>{asset.amount.toFixed(8)}</td>
-                  <td onClick={() => setSelectedSymbol(asset.symbol)}>${currentPrice.toFixed(2)}</td>
                   <td 
                     onClick={() => setSelectedSymbol(asset.symbol)}
+                    role="gridcell"
+                    tabIndex={0}
+                    onKeyPress={(e) => e.key === 'Enter' && setSelectedSymbol(asset.symbol)}
+                    aria-label={`Валюта ${asset.symbol}`}
+                  >
+                    {asset.symbol}
+                  </td>
+                  <td 
+                    onClick={() => setSelectedSymbol(asset.symbol)}
+                    role="gridcell"
+                    tabIndex={0}
+                    onKeyPress={(e) => e.key === 'Enter' && setSelectedSymbol(asset.symbol)}
+                    aria-label={`Количество: ${asset.amount.toFixed(8)}`}
+                  >
+                    {asset.amount.toFixed(8)}
+                  </td>
+                  <td 
+                    onClick={() => setSelectedSymbol(asset.symbol)}
+                    role="gridcell"
+                    tabIndex={0}
+                    onKeyPress={(e) => e.key === 'Enter' && setSelectedSymbol(asset.symbol)}
+                    aria-label={`Текущая цена: ${currentPrice.toFixed(2)} долларов`}
+                  >
+                    ${currentPrice.toFixed(2)}
+                  </td>
+                  <td 
+                    onClick={() => setSelectedSymbol(asset.symbol)}
+                    role="gridcell"
+                    tabIndex={0}
+                    onKeyPress={(e) => e.key === 'Enter' && setSelectedSymbol(asset.symbol)}
                     className={change24h >= 0 ? styles.positive : styles.negative}
+                    aria-label={`Изменение за 24 часа: ${change24h >= 0 ? 'плюс' : 'минус'} ${Math.abs(change24h).toFixed(2)}%`}
                   >
                     {change24h >= 0 ? '+' : ''}{change24h.toFixed(2)}%
                   </td>
-                  <td onClick={() => setSelectedSymbol(asset.symbol)}>${totalValue.toFixed(2)}</td>
-                  <td onClick={() => setSelectedSymbol(asset.symbol)}>{portfolioShare.toFixed(2)}%</td>
-                  <td>
+                  <td 
+                    onClick={() => setSelectedSymbol(asset.symbol)}
+                    role="gridcell"
+                    tabIndex={0}
+                    onKeyPress={(e) => e.key === 'Enter' && setSelectedSymbol(asset.symbol)}
+                    aria-label={`Общая стоимость: ${totalValue.toFixed(2)} долларов`}
+                  >
+                    ${totalValue.toFixed(2)}
+                  </td>
+                  <td 
+                    onClick={() => setSelectedSymbol(asset.symbol)}
+                    role="gridcell"
+                    tabIndex={0}
+                    onKeyPress={(e) => e.key === 'Enter' && setSelectedSymbol(asset.symbol)}
+                    aria-label={`Доля в портфеле: ${portfolioShare.toFixed(2)}%`}
+                  >
+                    {portfolioShare.toFixed(2)}%
+                  </td>
+                  <td role="gridcell">
                     <button
                       className={styles.deleteButton}
                       onClick={() => dispatch(removeAsset(asset.id))}
-                      title="Удалить актив"
+                      aria-label={`Удалить ${asset.symbol} из портфеля`}
                     >
                       ×
                     </button>
@@ -262,7 +315,11 @@ export const PortfolioTable: React.FC = () => {
       </div>
 
       {selectedSymbol && (
-        <div className={styles.chartSection}>
+        <div 
+          className={styles.chartSection} 
+          role="region" 
+          aria-label={`Детальный график ${selectedSymbol}`}
+        >
           <PriceChart symbol={selectedSymbol} />
         </div>
       )}

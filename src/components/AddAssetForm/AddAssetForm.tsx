@@ -40,19 +40,42 @@ export const AddAssetForm: React.FC<AddAssetFormProps> = ({ isOpen, onClose }) =
   if (!isOpen) return null;
 
   return (
-    <div className={styles.overlay} onClick={onClose}>
-      <div className={styles.modal} onClick={e => e.stopPropagation()}>
-        <button className={styles.closeButton} onClick={onClose}>×</button>
+    <div 
+      className={styles.overlay} 
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="form-title"
+    >
+      <div 
+        className={styles.modal} 
+        onClick={e => e.stopPropagation()}
+        role="document"
+      >
+        <button 
+          className={styles.closeButton} 
+          onClick={onClose}
+          aria-label="Закрыть форму"
+        >
+          ×
+        </button>
         <div className={styles.header}>
-          <h2>Добавить актив</h2>
+          <h2 id="form-title">Добавить актив</h2>
         </div>
-        <form className={styles.form} onSubmit={handleSubmit}>
+        <form 
+          className={styles.form} 
+          onSubmit={handleSubmit}
+          aria-labelledby="form-title"
+        >
           <div className={styles.inputGroup}>
-            <label>Валюта</label>
+            <label id="currency-label">Валюта</label>
             <button
               type="button"
               className={styles.currencySelector}
               onClick={() => setIsCurrencyModalOpen(true)}
+              aria-labelledby="currency-label"
+              aria-haspopup="dialog"
+              aria-expanded={isCurrencyModalOpen}
             >
               {selectedCurrency ? (
                 <span>
@@ -74,6 +97,8 @@ export const AddAssetForm: React.FC<AddAssetFormProps> = ({ isOpen, onClose }) =
               onChange={(e) => setAmount(e.target.value)}
               placeholder="0.00"
               required
+              aria-required="true"
+              aria-label="Введите количество валюты"
             />
           </div>
 
@@ -82,6 +107,7 @@ export const AddAssetForm: React.FC<AddAssetFormProps> = ({ isOpen, onClose }) =
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             disabled={!selectedCurrency || !amount}
+            aria-disabled={!selectedCurrency || !amount}
           >
             Добавить
           </motion.button>

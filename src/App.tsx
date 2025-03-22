@@ -11,12 +11,13 @@ function App() {
 
   return (
     <Provider store={store}>
-      <div className="App">
-        <div className="header">
+      <div className="App" role="application">
+        <div className="header" role="banner">
           <h1>Крипто Портфель</h1>
           <button 
             className="addButton"
             onClick={() => setIsAddAssetModalOpen(true)}
+            aria-label="Добавить новый актив в портфель"
           >
             Добавить актив
           </button>

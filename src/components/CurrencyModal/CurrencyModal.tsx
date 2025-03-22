@@ -85,6 +85,9 @@ export const CurrencyModal: React.FC<CurrencyModalProps> = ({ isOpen, onClose, o
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="currency-modal-title"
     >
       <motion.div
         className={styles.modal}
@@ -92,10 +95,17 @@ export const CurrencyModal: React.FC<CurrencyModalProps> = ({ isOpen, onClose, o
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
         onClick={e => e.stopPropagation()}
+        role="document"
       >
         <div className={styles.header}>
-          <h2>Выберите криптовалюту</h2>
-          <button className={styles.closeButton} onClick={onClose}>×</button>
+          <h2 id="currency-modal-title">Выберите криптовалюту</h2>
+          <button 
+            className={styles.closeButton} 
+            onClick={onClose}
+            aria-label="Закрыть окно выбора валюты"
+          >
+            ×
+          </button>
         </div>
 
         <div className={styles.search}>
@@ -104,12 +114,24 @@ export const CurrencyModal: React.FC<CurrencyModalProps> = ({ isOpen, onClose, o
             placeholder="Поиск валюты..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            aria-label="Поиск валюты"
+            role="searchbox"
           />
         </div>
 
-        <div className={styles.currencyList}>
+        <div 
+          className={styles.currencyList}
+          role="listbox"
+          aria-label="Список доступных валют"
+        >
           {isLoading ? (
-            <div className={styles.loading}>Загрузка...</div>
+            <div 
+              className={styles.loading}
+              role="status"
+              aria-live="polite"
+            >
+              Загрузка...
+            </div>
           ) : (
             filteredCurrencies.map(currency => (
               <motion.div
@@ -120,6 +142,15 @@ export const CurrencyModal: React.FC<CurrencyModalProps> = ({ isOpen, onClose, o
                   onClose();
                 }}
                 whileHover={{ backgroundColor: 'var(--bg-hover)' }}
+                role="option"
+                tabIndex={0}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter') {
+                    onSelect(currency);
+                    onClose();
+                  }
+                }}
+                aria-label={`${currency.symbol}: цена ${currency.price.toFixed(2)} долларов, изменение ${currency.change24h >= 0 ? 'плюс' : 'минус'} ${Math.abs(currency.change24h).toFixed(2)}%`}
               >
                 <div className={styles.symbol}>{currency.symbol}</div>
                 <div className={styles.price}>${currency.price.toFixed(2)}</div>
