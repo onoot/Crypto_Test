@@ -1,0 +1,182 @@
+.container {
+  padding: 1rem;
+  background-color: var(--bg-primary);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+
+  h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--text-primary);
+  }
+}
+
+.totalInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.totalValue {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-family: monospace;
+}
+
+.totalChange {
+  font-size: 1.2rem;
+  font-weight: 600;
+  font-family: monospace;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  
+  &.positive {
+    color: var(--success-color);
+    background-color: rgba(34, 197, 94, 0.1);
+  }
+  
+  &.negative {
+    color: var(--error-color);
+    background-color: rgba(239, 68, 68, 0.1);
+  }
+}
+
+.tableContainer {
+  overflow-x: auto;
+  margin-bottom: 1rem;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--bg-secondary);
+  border-radius: 8px;
+  overflow: hidden;
+
+  th, td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  th {
+    background-color: var(--bg-accent);
+    color: var(--text-primary);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  td {
+    font-family: monospace;
+  }
+
+  tr {
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: var(--bg-hover);
+    }
+
+    &.selected {
+      background-color: var(--bg-accent);
+    }
+  }
+}
+
+.positive {
+  color: var(--success-color);
+}
+
+.negative {
+  color: var(--error-color);
+}
+
+.chartSection {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: var(--bg-secondary);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.portfolioChart {
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  box-shadow: var(--shadow-sm);
+
+  h3 {
+    margin: 0 0 1rem;
+    color: var(--text-primary);
+    font-size: 1.2rem;
+  }
+}
+
+.priceChart {
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  box-shadow: var(--shadow-sm);
+
+  h3 {
+    margin: 0 0 1rem;
+    color: var(--text-primary);
+    font-size: 1.2rem;
+  }
+
+  :global {
+    .recharts-cartesian-grid-horizontal line,
+    .recharts-cartesian-grid-vertical line {
+      stroke: var(--border-color);
+    }
+
+    .recharts-tooltip-wrapper {
+      .recharts-tooltip-item {
+        color: var(--text-secondary);
+      }
+    }
+
+    .recharts-legend-item-text {
+      color: var(--text-secondary) !important;
+    }
+
+    .recharts-tooltip-label {
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .table {
+    th, td {
+      padding: 0.75rem 0.5rem;
+      font-size: 0.875rem;
+    }
+  }
+
+  .totalInfo {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+  }
+
+  .totalValue {
+    font-size: 1.25rem;
+  }
+
+  .totalChange {
+    font-size: 1rem;
+  }
+} 
